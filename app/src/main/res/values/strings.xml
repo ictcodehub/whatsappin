@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+=====================================================================
+File: strings.xml
+Tujuan: Menyimpan konstanta teks/string untuk aplikasi
+Dipakai oleh: Seluruh komponen aplikasi (layout, manifest, kode Kotlin)
+Dependensi Utama: None
+Daftar Fungsi: Konstanta app_name
+Side Effect: Menentukan nama aplikasi yang tampil di sistem operasi
+=====================================================================
+-->
+<resources>
+    <string name="app_name">WhatsappIn</string>
+</resources>

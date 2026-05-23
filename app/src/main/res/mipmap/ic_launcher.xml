@@ -1,0 +1,14 @@
+<!--
+=====================================================================
+File: ic_launcher.xml
+Tujuan: Mendeklarasikan ikon adaptif utama aplikasi WhatsappIn (background + foreground)
+Dipakai oleh: Sistem Operasi Android & Launcher
+Dependensi Utama: drawable/ic_launcher_background, drawable/ic_launcher_foreground
+Daftar Fungsi: None
+Side Effect: Menentukan visual ikon aplikasi pada home screen perangkat Android
+=====================================================================
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+</adaptive-icon>

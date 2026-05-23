@@ -1,0 +1,27 @@
+<!--
+=====================================================================
+File: ic_launcher_foreground.xml
+Tujuan: Menyediakan aset vektor latar depan ikon aplikasi WhatsappIn (Gelembung WA + Pesawat Kertas)
+Dipakai oleh: mipmap/ic_launcher.xml dan mipmap/ic_launcher_round.xml
+Dependensi Utama: None
+Daftar Fungsi: Path vektor gelembung WhatsApp putih & pesawat kertas flat hijau
+Side Effect: Menampilkan logo unik WhatsappIn di peluncur (launcher) perangkat
+=====================================================================
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- White Speech Bubble (Gaya Gelembung WhatsApp Asli) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,26 C38.5,26 26,38.5 26,54 C26,59.3 27.5,64.2 30,68.4 L26.5,79 L37.6,75.6 C42.1,78.4 47.9,80 54,80 C69.5,80 82,67.5 82,54 C82,38.5 69.5,26 54,26 Z" />
+        
+    <!-- Flat Paper Airplane (Pesawat Kertas Hijau WhatsApp) -->
+    <path
+        android:fillColor="#008069"
+        android:pathData="M42,42 L70,54 L42,66 L42,57 L60,54 L42,51 Z" />
+        
+</vector>
