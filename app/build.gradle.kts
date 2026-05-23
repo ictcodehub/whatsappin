@@ -1,10 +1,10 @@
 // =====================================================================
 // File: build.gradle.kts (App Level)
-// Tujuan: Mengonfigurasi build, dependensi, dan setelan compile aplikasi WhatsappIn
+// Tujuan: Mengonfigurasi build, dependensi, setelan compile, dan tanda tangan digital otomatis (signing release) aplikasi WhatsappIn
 // Dipakai oleh: Gradle Build System
 // Dependensi Utama: Plugins (com.android.application, org.jetbrains.kotlin.android, compose)
-// Daftar Fungsi: Konfigurasi android { namespace, compileSdk, defaultConfig, buildTypes }, dependencies
-// Side Effect: Menghasilkan paket APK aplikasi, menentukan tingkat SDK minimal & target compile
+// Daftar Fungsi: Konfigurasi android { namespace, compileSdk, defaultConfig, signingConfigs, buildTypes }, dependencies
+// Side Effect: Menghasilkan paket APK aplikasi bertanda tangan digital resmi, menentukan tingkat SDK minimal & target compile
 // =====================================================================
 
 plugins {
@@ -25,10 +25,20 @@ android {
         versionName = "1.0.0"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("whatsappin.jks")
+            storePassword = "whatsappin123"
+            keyAlias = "whatsappin_key"
+            keyPassword = "whatsappin123"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
