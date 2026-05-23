@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+=====================================================================
+File: file_paths.xml
+Tujuan: Mendeklarasikan jalur direktori cache yang diizinkan untuk dibagikan secara aman via FileProvider
+Dipakai oleh: AndroidManifest.xml (FileProvider)
+Dependensi Utama: SDK Android, cache-path
+Daftar Fungsi: Konfigurasi cache-path untuk camera_photos
+Side Effect: Memberikan izin baca/tulis sementara pada file cache ke aplikasi kamera luar
+=====================================================================
+-->
+<paths>
+    <cache-path name="camera_photos" path="." />
+</paths>

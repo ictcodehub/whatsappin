@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -144,17 +145,21 @@ fun PhoneInputSection(
                 OutlinedTextField(
                     value = messageInput,
                     onValueChange = onMessageInputChanged,
-                    label = { Text(LanguageMapper.getString("direct_message_label", language)) },
+                    label = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.Message,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(LanguageMapper.getString("direct_message_label", language))
+                        }
+                    },
                     placeholder = { Text(LanguageMapper.getString("direct_message_placeholder", language)) },
                     minLines = 3,
                     maxLines = 5,
-                    leadingIcon = {
-                        Icon(
-                            Icons.AutoMirrored.Filled.Message,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    },
                     trailingIcon = {
                         if (messageInput.isNotEmpty()) {
                             IconButton(onClick = { onMessageInputChanged("") }) {

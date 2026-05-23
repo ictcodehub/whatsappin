@@ -1,17 +1,19 @@
 /**
  * =====================================================================
  * File: MainActivity.kt
- * Tujuan: Activity utama pengontrol UI aplikasi WhatsappIn berbasis tab navigasi mirip WhatsApp asli, mendukung halaman pengaturan full-screen
+ * Tujuan: Activity utama pengontrol UI aplikasi WhatsappIn berbasis tab navigasi mirip WhatsApp asli, mendukung halaman pengaturan full-screen & pengambilan gambar kamera untuk OCR
  * Dipakai oleh: Sistem Operasi Android (Launcher)
- * Dependensi Utama: MainViewModel, WhatsappInTheme, LanguageMapper, SettingsScreen, ContactUtils
+ * Dependensi Utama: MainViewModel, WhatsappInTheme, LanguageMapper, SettingsScreen, ContactUtils, FileProvider
  * Daftar Fungsi: onCreate, WADirectApp, WhatsAppTopBar, EmptyChatsState, AboutDialog
- * Side Effect: Menampilkan layar interaktif, meluncurkan photo picker, memicu intent luar ke WhatsApp, membaca kontak, mengubah preferensi pengaturan
+ * Side Effect: Menampilkan layar interaktif, mengambil foto dari kamera HP untuk OCR, meluncurkan photo picker, memicu intent luar ke WhatsApp, membaca kontak, mengubah preferensi pengaturan
  * =====================================================================
  */
 package com.heytayo.whatsappin
 
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.FileProvider
+import java.io.File
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -174,6 +176,34 @@ fun WADirectApp() {
         }
     }
 
+    // Uri untuk menyimpan hasil jepretan kamera sementara
+    var tempCameraUri by remember { mutableStateOf<Uri?>(null) }
+
+    // Fungsi untuk membuat URI file sementara untuk kamera
+    fun createTempCameraUri(): Uri {
+        val tempFile = File.createTempFile("camera_capture_", ".jpg", context.cacheDir).apply {
+            createNewFile()
+            deleteOnExit()
+        }
+        return FileProvider.getUriForFile(
+            context,
+            "com.heytayo.whatsappin.fileprovider",
+            tempFile
+        )
+    }
+
+    // Camera launcher untuk mengambil foto dan langsung memproses OCR
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            tempCameraUri?.let { uri ->
+                viewModel.processImage(context, uri)
+                selectedTab = 2 // Langsung pindah ke tab SCAN
+            }
+        }
+    }
+
     fun triggerHapticFeedback() {
         if (hapticEnabled) {
             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -286,9 +316,14 @@ fun WADirectApp() {
                             WhatsAppTopBar(
                                 language = language,
                                 onCameraClick = {
-                                    photoPickerLauncher.launch(
-                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                    )
+                                    triggerHapticFeedback()
+                                    try {
+                                        val uri = createTempCameraUri()
+                                        tempCameraUri = uri
+                                        cameraLauncher.launch(uri)
+                                    } catch (e: Exception) {
+                                        Toast.makeText(context, "Gagal membuka kamera: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                    }
                                 },
                                 onSearchClick = { isSearchActive = true },
                                 onMenuClick = { showMenu = !showMenu },
